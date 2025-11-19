@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: efsanevi-trading-bot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python trading_education_bot.py
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: DEVELOPER_ID
+        sync: false
+      - key: ENVIRONMENT
+        value: production

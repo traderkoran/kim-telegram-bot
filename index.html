@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efsanevi Yatırım Eğitim Botu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.birds.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .vanta-canvas { position: fixed !important; }
+        .hero-section { background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(51, 65, 85, 0.95)); }
+        .glass-effect { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.1); }
+        .gradient-text { background: linear-gradient(135deg, #f59e0b, #dc2626); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .module-card { transition: all 0.3s ease; }
+        .module-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .feature-icon { background: linear-gradient(135deg, #f59e0b, #dc2626); }
+        .telegram-button { background: linear-gradient(135deg, #0088cc, #004d7a); }
+        .telegram-button:hover { background: linear-gradient(135deg, #004d7a, #0088cc); }
+    </style>
+</head>
+<body class="bg-slate-900 text-white overflow-x-hidden">
+    <!-- Vanta.js Background -->
+    <div id="vanta-bg" class="fixed inset-0 z-0"></div>
+    
+    <!-- Navigation -->
+    <nav class="relative z-50 bg-slate-800/80 backdrop-blur-md border-b border-slate-700">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-amber-500 to-red-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white text-xl"></i>
+                    </div>
+                    <h1 class="text-xl font-bold gradient-text">Efsanevi Bot</h1>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#features" class="hover:text-amber-400 transition-colors">Özellikler</a>
+                    <a href="#modules" class="hover:text-amber-400 transition-colors">Modüller</a>
+                    <a href="#how-it-works" class="hover:text-amber-400 transition-colors">Nasıl Çalışır</a>
+                    <a href="#contact" class="hover:text-amber-400 transition-colors">İletişim</a>
+                </div>
+                <a href="https://t.me/efsanevi_trading_bot" target="_blank" class="telegram-button px-6 py-2 rounded-lg font-semibold text-white transition-all hover:scale-105">
+                    <i class="fab fa-telegram-plane mr-2"></i>Botu Başlat
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative z-10 hero-section min-h-screen flex items-center">
+        <div class="container mx-auto px-6 py-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <h1 class="text-5xl lg:text-7xl font-bold leading-tight">
+                            <span class="gradient-text">Efsanevi</span><br>
+                            <span class="text-white">Yatırım</span><br>
+                            <span class="text-amber-400">Eğitimi</span>
+                        </h1>
+                        <p class="text-xl text-slate-300 leading-relaxed">
+                            PROMETHEUS AI'nın 7 katmanlı analiz modeli ve Piyasa Sihirbazlarının psikolojik prensiplerine dayalı kapsamlı yatırım eğitimi platformu
+                        </p>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="https://t.me/efsanevi_trading_bot" target="_blank" class="telegram-button px-8 py-4 rounded-xl font-semibold text-white text-lg transition-all hover:scale-105 flex items-center justify-center space-x-2">
+                            <i class="fab fa-telegram-plane text-2xl"></i>
+                            <span>Hemen Başla</span>
+                        </a>
+                        <button onclick="scrollToSection('features')" class="glass-effect px-8 py-4 rounded-xl font-semibold text-white text-lg border border-slate-600 hover:border-amber-400 transition-all">
+                            Detaylı Bilgi
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center space-x-8 text-slate-400">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-users text-amber-400"></i>
+                            <span>1000+ Kullanıcı</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-book text-amber-400"></i>
+                            <span>15+ Ders</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-trophy text-amber-400"></i>
+                            <span>Sertifika</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <div class="glass-effect rounded-2xl p-8 border border-slate-700">
+                        <div class="space-y-6">
+                            <div class="text-center">
+                                <div class="w-20 h-20 feature-icon rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-robot text-white text-3xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-2">Telegram Botu</h3>
+                                <p class="text-slate-300">7/24 erişilebilir interaktif eğitim</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold gradient-text">5</div>
+                                    <div class="text-sm text-slate-400">Eğitim Modülü</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold gradient-text">∞</div>
+                                    <div class="text-sm text-slate-400">Quiz</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="relative z-10 py-20 bg-slate-800/50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">
+                    <span class="gradient-text">Öne Çıkan</span> <span class="text-white">Özellikler</span>
+                </h2>
+                <p class="text-xl text-slate-300 max-w-3xl mx-auto">
+                    Modern eğitim teknolojileri ile donatılmış, interaktif ve kişiselleştirilmiş öğrenme deneyimi
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-effect rounded-2xl p-8 border border-slate-700 module-card">
+                    <div class="w-16 h-16 feature-icon rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Yapılandırılmış Eğitim</h3>
+                    <p class="text-slate-300 mb-4">PROMETHEUS AI modeline dayalı 5 kademeli eğitim sistemi ile sistematik öğrenme</p>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• Temel kavramlar</li>
+                        <li>• Teknik analiz</li>
+                        <li>• İleri teknikler</li>
+                    </ul>
+                </div>
+                
+                <div class="glass-effect rounded-2xl p-8 border border-slate-700 module-card">
+                    <div class="w-16 h-16 feature-icon rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-brain text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Etkileşimli Quizler</h3>
+                    <p class="text-slate-300 mb-4">Her ders sonunda uygulanan quizler ile bilgilerin pekiştirilmesi</p>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• Anlık geri bildirim</li>
+                        <li>• Puanlama sistemi</li>
+                        <li>• İlerleme takibi</li>
+                    </ul>
+                </div>
+                
+                <div class="glass-effect rounded-2xl p-8 border border-slate-700 module-card">
+                    <div class="w-16 h-16 feature-icon rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-chart-line text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">İlerleme Takibi</h3>
+                    <p class="text-slate-300 mb-4">Kişisel ilerleme durumunuzun detaylı analizi ve performans raporları</p>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• Tamamlanma oranı</li>
+                        <li>• Puan istatistikleri</li>
+                        <li>• Sertifika durumu</li>
+                    </ul>
+                </div>
+                
+                <div class="glass-effect rounded-2xl p-8 border border-slate-700 module-card">
+                    <div class="w-16 h-16 feature-icon rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-certificate text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Sertifika Sistemi</h3>
+                    <p class="text-slate-300 mb-4">Eğitimi başarıyla tamamlayan kullanıcılara dijital sertifika</p>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• %80 tamamlama şartı</li>
+                        <li>• Dijital sertifika</li>
+                        <li>• Başarı belgesi</li>
+                    </ul>
+                </div>
+                
+                <div class="glass-effect rounded-2xl p-8 border border-slate-700 module-card">
+                    <div class="w-16 h-16 feature-icon rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-tools text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Analiz Araçları</h3>
+                    <p class="text-slate-300 mb-4">Gerçek zamanlı piyasa analiz araçları ve risk hesaplayıcılar</p>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• Piyama scannerı</li>
+                        <li>• Risk hesaplayıcı</li>
+                        <li>• Sinyal üretici</li>
+                    </ul>
+                </div>
+                
+                <div class="glass-effect rounded-2xl p-8 border border-slate-700 module-card">
+                    <div class="w-16 h-16 feature-icon rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-mobile-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">7/24 Erişim</h3>
+                    <p class="text-slate-300 mb-4">Telegram üzerinden her zaman ve her yerden erişim imkanı</p>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• Mobil uyumlu</li>
+                        <li>• Çevrimdışı içerik</li>
+                        <li>• Hızlı yanıt</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modules Section -->
+    <section id="modules" class="relative z-10 py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">
+                    <span class="gradient-text">Eğitim</span> <span class="text-white">Modülleri</span>
+                </h2>
+                <p class="text-xl text-slate-300 max-w-3xl mx-auto">
+                    PROMETHEUS AI ve Piyasa Sihirbazları konseptlerine dayalı kapsamlı eğitim programı
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Module 1 -->
+                <div class="glass-effect rounded-2xl p-8 border border-slate-700 module-card">
+                    <div class="flex items-start space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-amber-500 to-red-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold text-xl">1</span>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">🎯 Temel Kavramlar</h3>
+                            <p class="text-slate-300">Yatırımın temel prensipleri ve piyasa yapısı</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 text-slate-300">
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Piyasa psikolojisi ve duygu yönetimi</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Risk yönetimi temelleri</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Piyasa yapısı ve trend analizi</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Module 2 -->
+                <div class="glass-effect rounded-2xl p-8 border border-slate-700 module-card">
+                    <div class="flex items-start space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-amber-500 to-red-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold text-xl">2</span>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">📊 Teknik Analiz</h3>
+                            <p class="text-slate-300">Fiyat hareketleri ve grafik formasyonları</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 text-slate-300">
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Mum çubuğu formasyonları</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Grafik formasyonları (OBO, Üçgen)</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Göstergeler ve osilatörler</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Module 3 -->
+                <div class="glass-effect rounded-2xl p-8 border border-slate-700 module-card">
+                    <div class="flex items-start space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-amber-500 to-red-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold text-xl">3</span>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">⚡ İleri Teknikler</h3>
+                            <p class="text-slate-300">Harmonik formasyonlar ve Elliott Dalga Teorisi</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 text-slate-300">
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Fibonacci geri çekilme ve uzantıları</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Harmonik formasyonlar</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Elliott Dalga analizi</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Module 4 -->
+                <div class="glass-effect rounded-2xl p-8 border border-slate-700 module-card">
+                    <div class="flex items-start space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-amber-500 to-red-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold text-xl">4</span>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">🧠 Ticaret Psikolojisi</h3>
+                            <p class="text-slate-300">Zihinsel disiplin ve duygu yönetimi</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 text-slate-300">
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Kazanma zihniyeti ve disiplin</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Risk psikolojisi ve duygu kontrolü</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span>Bağımsız düşünme ve karar verme</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Module 5 -->
+                <div class="glass-effect rounded-2xl p-8 border border-slate-700 module-card lg:col-span-2">
+                    <div class="flex items-start space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-amber-500 to-red-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold text-xl">5</span>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">🛡️ Risk Yönetimi</h3>
+                            <p class="text-slate-300">Sermaye koruma ve pozisyon yönetimi</p>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <ul class="space-y-3 text-slate-300">
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-green-400"></i>
+                                <span>Pozisyon büyüklüğü hesaplama</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-green-400"></i>
+                                <span>Zarar durdurma stratejileri</span>
+                            </li>
+                        </ul>
+                        <ul class="space-y-3 text-slate-300">
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-green-400"></i>
+                                <span>Risk/ödül oranları</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-green-400"></i>
+                                <span>Portföy çeşitlendirmesi</span>
+                            </li>
+                        </ul>
+                        <ul class="space-y-3 text-slate-300">
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-green-400"></i>
+                                <span>Korelasyon analizi</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-green-400"></i>
+                                <span>Kayıp serisi yönetimi</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="relative z-10 py-20 bg-slate-800/50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">
+                    <span class="gradient-text">Nasıl</span> <span class="text-white">Çalışır?</span>
+                </h2>
+                <p class="text-xl text-slate-300 max-w-3xl mx-auto">
+                    4 adımda yatırım uzmanlığına giden yolculuk
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 feature-icon rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white font-bold text-2xl">1</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Botu Başlat</h3>
+                    <p class="text-slate-300">Telegram'da botu başlatın ve /start komutu ile eğitime başlayın</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 feature-icon rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white font-bold text-2xl">2</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Modül Seç</h3>
+                    <p class="text-slate-300">İlgilendiğiniz eğitim modülünü seçin ve derslere başlayın</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 feature-icon rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white font-bold text-2xl">3</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Öğren ve Test Et</h3>
+                    <p class="text-slate-300">Dersleri tamamla ve quizleri çözerek bilgini test et</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 feature-icon rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white font-bold text-2xl">4</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Sertifika Al</h3>
+                    <p class="text-slate-300">Eğitimi tamamla ve dijital sertifikanı al</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="relative z-10 py-20">
+        <div class="container mx-auto px-6">
+            <div class="glass-effect rounded-3xl p-12 text-center border border-slate-700">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">
+                    <span class="gradient-text">Hazır</span> <span class="text-white">mısın?</span>
+                </h2>
+                <p class="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
+                    Yatırım uzmanlığına giden yolda ilk adımı at. Ücretsiz eğitimimize hemen katıl ve finansal geleceğini şekillendir.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://t.me/efsanevi_trading_bot" target="_blank" class="telegram-button px-8 py-4 rounded-xl font-semibold text-white text-lg transition-all hover:scale-105 flex items-center justify-center space-x-2">
+                        <i class="fab fa-telegram-plane text-2xl"></i>
+                        <span>Ücretsiz Başla</span>
+                    </a>
+                    <button onclick="scrollToSection('modules')" class="glass-effect px-8 py-4 rounded-xl font-semibold text-white text-lg border border-slate-600 hover:border-amber-400 transition-all">
+                        İçerikleri İncele
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="relative z-10 bg-slate-800/80 border-t border-slate-700 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-r from-amber-500 to-red-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold gradient-text">Efsanevi Bot</h3>
+                    </div>
+                    <p class="text-slate-300 mb-4">
+                        PROMETHEUS AI ve Piyasa Sihirbazları konseptlerine dayalı kapsamlı yatırım eğitimi platformu.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4 text-white">Hızlı Erişim</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="text-slate-300 hover:text-amber-400 transition-colors">Özellikler</a></li>
+                        <li><a href="#modules" class="text-slate-300 hover:text-amber-400 transition-colors">Eğitim Modülleri</a></li>
+                        <li><a href="#how-it-works" class="text-slate-300 hover:text-amber-400 transition-colors">Nasıl Çalışır</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4 text-white">İletişim</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3">
+                            <i class="fab fa-telegram text-amber-400"></i>
+                            <a href="https://t.me/developer_username" class="text-slate-300 hover:text-amber-400 transition-colors">@developer_username</a>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-envelope text-amber-400"></i>
+                            <a href="mailto:developer@email.com" class="text-slate-300 hover:text-amber-400 transition-colors">developer@email.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-700 mt-8 pt-8 text-center">
+                <p class="text-slate-400">
+                    © 2025 Efsanevi Yatırım Eğitim Botu. Tüm hakları saklıdır.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Vanta.js background
+        VANTA.BIRDS({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            backgroundColor: 0x1e293b,
+            color1: 0xf59e0b,
+            color2: 0xdc2626,
+            colorMode: 'variance',
+            birdSize: 1.20,
+            wingSpan: 25.00,
+            speedLimit: 3.00,
+            separation: 20.00,
+            alignment: 20.00,
+            cohesion: 20.00,
+            quantity: 3.00
+        });
+
+        // Smooth scroll function
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('bg-slate-800/95');
+            } else {
+                nav.classList.remove('bg-slate-800/95');
+            }
+        });
+
+        // Add loading animation
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html>
