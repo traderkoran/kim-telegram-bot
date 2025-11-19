@@ -14,6 +14,11 @@ from datetime import datetime
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes, MessageHandler, filters
 
+# --- RENDER İÇİN GEREKLİ EKLEMELER ---
+from flask import Flask
+from threading import Thread
+# -------------------------------------
+
 # Enable logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -25,51 +30,69 @@ logger = logging.getLogger(__name__)
 BOT_TOKEN = os.environ.get('BOT_TOKEN', 'YOUR_BOT_TOKEN_HERE')
 DEVELOPER_ID = os.environ.get('DEVELOPER_ID', 'YOUR_DEVELOPER_ID')
 
+# --- RENDER KEEP-ALIVE WEB SUNUCUSU ---
+# Bu bölüm Render'ın botu kapatmaması için sahte bir web sunucusu çalıştırır.
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Bot aktif! Efsanevi Yatırım Botu çalışıyor."
+
+def run():
+    # Render'ın atadığı PORT'u kullan, yoksa 8080
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host='0.0.0.0', port=port)
+
+def keep_alive():
+    t = Thread(target=run)
+    t.start()
+# ---------------------------------------
+
 # Education content structure
 EDUCATION_MODULES = {
     "module_1": {
         "title": "🎯 Temel Kavramlar",
         "description": "Yatırımın temel prensipleri ve piyasa yapısı",
         "lessons": [
-            {"id": "lesson_1_1", "title": "Piyasa Psikolojisi", "content": "Piyasa katılımcılarının davranışları ve duygusal etkiler"},
-            {"id": "lesson_1_2", "title": "Risk Yönetimi Temelleri", "content": "Risk toleransı ve sermaye koruma stratejileri"},
-            {"id": "lesson_1_3", "title": "Piyasa Yapısı Analizi", "content": "Trendler, destek/direnç ve piyasa aşamaları"}
+            {"id": "lesson_1_1", "title": "Piyasa Psikolojisi", "content": "Piyasa katılımcılarının davranışları ve duygusal etkiler."},
+            {"id": "lesson_1_2", "title": "Risk Yönetimi Temelleri", "content": "Risk toleransı ve sermaye koruma stratejileri."},
+            {"id": "lesson_1_3", "title": "Piyasa Yapısı Analizi", "content": "Trendler, destek/direnç ve piyasa aşamaları."}
         ]
     },
     "module_2": {
         "title": "📊 Teknik Analiz",
         "description": "Fiyat hareketleri ve grafik formasyonları",
         "lessons": [
-            {"id": "lesson_2_1", "title": "Mum Çubuğu Formasyonları", "content": "Tekli, ikili ve üçlü mum formasyonları"},
-            {"id": "lesson_2_2", "title": "Grafik Formasyonları", "content": "Omuz Baş Omuz, Üçgen, Bayrak formasyonları"},
-            {"id": "lesson_2_3", "title": "Göstergeler ve Osilatörler", "content": "RSI, MACD, Stokastik ve ADX kullanımı"}
+            {"id": "lesson_2_1", "title": "Mum Çubuğu Formasyonları", "content": "Tekli, ikili ve üçlü mum formasyonları."},
+            {"id": "lesson_2_2", "title": "Grafik Formasyonları", "content": "Omuz Baş Omuz, Üçgen, Bayrak formasyonları."},
+            {"id": "lesson_2_3", "title": "Göstergeler ve Osilatörler", "content": "RSI, MACD, Stokastik ve ADX kullanımı."}
         ]
     },
     "module_3": {
         "title": "⚡ İleri Teknikler",
         "description": "Harmonik formasyonlar ve Elliott Dalga Teorisi",
         "lessons": [
-            {"id": "lesson_3_1", "title": "Fibonacci Uygulamaları", "content": "Geri çekilme ve uzantı seviyeleri"},
-            {"id": "lesson_3_2", "title": "Harmonik Formasyonlar", "content": "Gartley, Kelebek, Yarasa formasyonları"},
-            {"id": "lesson_3_3", "title": "Elliott Dalga Analizi", "content": "İtici ve düzeltici dalga yapıları"}
+            {"id": "lesson_3_1", "title": "Fibonacci Uygulamaları", "content": "Geri çekilme ve uzantı seviyeleri."},
+            {"id": "lesson_3_2", "title": "Harmonik Formasyonlar", "content": "Gartley, Kelebek, Yarasa formasyonları."},
+            {"id": "lesson_3_3", "title": "Elliott Dalga Analizi", "content": "İtici ve düzeltici dalga yapıları."}
         ]
     },
     "module_4": {
         "title": "🧠 Ticaret Psikolojisi", 
         "description": "Zihinsel disiplin ve duygu yönetimi",
         "lessons": [
-            {"id": "lesson_4_1", "title": "Kazanma Zihniyeti", "content": "Disiplin, sabır ve objektiflik"},
-            {"id": "lesson_4_2", "title": "Risk Psikolojisi", "content": "Korku ve açgözlülükle başa çıkma"},
-            {"id": "lesson_4_3", "title": "Bağımsız Düşünme", "content": "Gurulara ve kitle psikolojisine karşı koyma"}
+            {"id": "lesson_4_1", "title": "Kazanma Zihniyeti", "content": "Disiplin, sabır ve objektiflik."},
+            {"id": "lesson_4_2", "title": "Risk Psikolojisi", "content": "Korku ve açgözlülükle başa çıkma."},
+            {"id": "lesson_4_3", "title": "Bağımsız Düşünme", "content": "Gurulara ve kitle psikolojisine karşı koyma."}
         ]
     },
     "module_5": {
         "title": "🛡️ Risk Yönetimi",
         "description": "Sermaye koruma ve pozisyon yönetimi",
         "lessons": [
-            {"id": "lesson_5_1", "title": "Pozisyon Büyüklüğü", "content": "Risk oranları ve sermaye yüzdesi"},
-            {"id": "lesson_5_2", "title": "Zarar Durdurma", "content": "Stop-loss stratejileri ve uygulaması"},
-            {"id": "lesson_5_3", "title": "Portföy Çeşitlendirmesi", "content": "Korelasyon ve risk dağıtımı"}
+            {"id": "lesson_5_1", "title": "Pozisyon Büyüklüğü", "content": "Risk oranları ve sermaye yüzdesi."},
+            {"id": "lesson_5_2", "title": "Zarar Durdurma", "content": "Stop-loss stratejileri ve uygulaması."},
+            {"id": "lesson_5_3", "title": "Portföy Çeşitlendirmesi", "content": "Korelasyon ve risk dağıtımı."}
         ]
     }
 }
@@ -91,7 +114,7 @@ def get_user_progress(user_id):
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Send a message when the command /start is issued."""
     user = update.effective_user
-    progress = get_user_progress(user.id)
+    get_user_progress(user.id) # Initialize user
     
     welcome_message = f"""
 🎓 **Hoşgeldiniz {user.first_name}!**
@@ -129,7 +152,6 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 • /help - Yardım bilgisi
 • /progress - İlerleme durumu
 • /quiz - Quiz başlat
-• /certificate - Sertifika görüntüle
 
 **Özellikler:**
 • 5 eğitim modülü
@@ -229,8 +251,14 @@ async def lesson_detail(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     keyboard = [
         [InlineKeyboardButton("📝 Quiz Çöz", callback_data=f'quiz_{lesson_id}')],
-        [InlineKeyboardButton("🔙 Derslere Dön", callback_data='modules')]
+        [InlineKeyboardButton("🔙 Derslere Dön", callback_data=f'module_{lesson_id.split("_")[0]}_{lesson_id.split("_")[1]}')] # Go back to specific module
     ]
+    # Basit hata önleme: Modül ID'sini dersten çıkarmak zor olabilir, güvenli dönüş:
+    keyboard = [
+        [InlineKeyboardButton("📝 Quiz Çöz", callback_data=f'quiz_{lesson_id}')],
+        [InlineKeyboardButton("🔙 Modüllere Dön", callback_data='modules')]
+    ]
+    
     reply_markup = InlineKeyboardMarkup(keyboard)
     
     message = f"""
@@ -271,8 +299,9 @@ async def quiz(update: Update, context: ContextTypes.DEFAULT_TYPE):
         }
     ]
     
-    # For demo, we'll use the first question
-    question = quiz_questions[0]
+    # Rastgele bir soru seçebiliriz ama şimdilik ilki
+    import random
+    question = random.choice(quiz_questions)
     
     keyboard = []
     for i, option in enumerate(question["options"]):
@@ -296,23 +325,30 @@ async def quiz_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     
-    data = query.data.split('_')
-    user_answer = int(data[1])
-    correct_answer = int(data[2])
-    
-    user = update.effective_user
-    progress = get_user_progress(user.id)
-    
-    if user_answer == correct_answer:
-        progress['total_score'] += 20
-        message = "✅ **Doğru Cevap!** 🎉\n\nTebrikler! 20 puan kazandınız!"
-    else:
-        message = "❌ **Yanlış Cevap**\n\nBir sonraki soruda daha şanslı olacaksınız!"
-    
-    keyboard = [[InlineKeyboardButton("🔙 Ana Menü", callback_data='main_menu')]]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    
-    await query.edit_message_text(message, parse_mode='Markdown', reply_markup=reply_markup)
+    try:
+        data = query.data.split('_')
+        user_answer = int(data[1])
+        correct_answer = int(data[2])
+        
+        user = update.effective_user
+        progress = get_user_progress(user.id)
+        
+        if user_answer == correct_answer:
+            progress['total_score'] += 20
+            message = "✅ **Doğru Cevap!** 🎉\n\nTebrikler! 20 puan kazandınız!"
+        else:
+            message = "❌ **Yanlış Cevap**\n\nBir sonraki soruda daha şanslı olacaksınız!"
+        
+        keyboard = [
+            [InlineKeyboardButton("🔄 Yeni Soru", callback_data='quiz')],
+            [InlineKeyboardButton("🔙 Ana Menü", callback_data='main_menu')]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        
+        await query.edit_message_text(message, parse_mode='Markdown', reply_markup=reply_markup)
+    except Exception as e:
+        logger.error(f"Quiz error: {e}")
+        await query.edit_message_text("Bir hata oluştu, lütfen tekrar deneyin.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 Ana Menü", callback_data='main_menu')]]))
 
 async def progress(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Show user progress"""
@@ -321,7 +357,12 @@ async def progress(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     completed_lessons = len(progress['completed_lessons'])
     total_lessons = sum(len(module['lessons']) for module in EDUCATION_MODULES.values())
-    completion_rate = (completed_lessons / total_lessons) * 100
+    
+    # Sıfıra bölünme hatasını önle
+    if total_lessons > 0:
+        completion_rate = (completed_lessons / total_lessons) * 100
+    else:
+        completion_rate = 0
     
     message = f"""
 📊 **İlerleme Durumunuz**
@@ -437,6 +478,11 @@ async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def main():
     """Start the bot."""
+    
+    # --- BU KISIM ÇOK ÖNEMLİ: RENDER'IN BOTU KAPATMAMASI İÇİN ---
+    keep_alive()
+    # ------------------------------------------------------------
+    
     # Create the Application
     application = Application.builder().token(BOT_TOKEN).build()
 
