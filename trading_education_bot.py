@@ -11,19 +11,18 @@ from flask import Flask
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes, MessageHandler, filters
 
-# Enable logging
+# Logging ayarları
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
 logger = logging.getLogger(__name__)
 
-# Bot configuration
+# Bot konfigürasyonu
 BOT_TOKEN = os.environ.get('BOT_TOKEN', 'YOUR_BOT_TOKEN_HERE')
 DEVELOPER_ID = os.environ.get('DEVELOPER_ID', 'YOUR_DEVELOPER_ID')
 
 # --- RENDER KEEP-ALIVE WEB SUNUCUSU ---
-# Render'ın Web Service olarak çalışması için bu kısım şarttır.
 app = Flask('')
 
 @app.route('/')
@@ -39,7 +38,7 @@ def keep_alive():
     t.start()
 # ---------------------------------------
 
-# Education content structure
+# Eğitim İçerikleri
 EDUCATION_MODULES = {
     "module_1": {
         "title": "🎯 Temel Kavramlar",
@@ -229,12 +228,9 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.warning('Error: %s', context.error)
 
-# --- İŞTE DÜZELTİLMİŞ MAIN KISMI BURADA ---
 async def main():
     """Start the bot."""
-    # Aşağıdaki satırlar artık içeriden başlıyor (TAB boşluğu var)
-    
-    keep_alive()  # Flask sunucusu başlat
+    keep_alive()
     
     application = Application.builder().token(BOT_TOKEN).build()
     
@@ -251,7 +247,6 @@ async def main():
     
     logger.info("Bot started successfully!")
     
-    # Sonsuza kadar bekle
     await asyncio.Event().wait()
 
 if __name__ == '__main__':
