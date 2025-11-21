@@ -23,6 +23,7 @@ BOT_TOKEN = os.environ.get('BOT_TOKEN', 'YOUR_BOT_TOKEN_HERE')
 DEVELOPER_ID = os.environ.get('DEVELOPER_ID', 'YOUR_DEVELOPER_ID')
 
 # --- RENDER KEEP-ALIVE WEB SUNUCUSU ---
+# Render'ın Web Service olarak çalışması için bu kısım şarttır.
 app = Flask('')
 
 @app.route('/')
@@ -228,20 +229,29 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.warning('Error: %s', context.error)
 
+# --- İŞTE DÜZELTİLMİŞ MAIN KISMI BURADA ---
 async def main():
     """Start the bot."""
-    keep_alive()
+    # Aşağıdaki satırlar artık içeriden başlıyor (TAB boşluğu var)
+    
+    keep_alive()  # Flask sunucusu başlat
+    
     application = Application.builder().token(BOT_TOKEN).build()
+    
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("progress", progress))
     application.add_handler(CallbackQueryHandler(button_handler))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, help_command))
     application.add_error_handler(error_handler)
+    
     await application.initialize()
     await application.start()
     await application.updater.start_polling()
+    
     logger.info("Bot started successfully!")
+    
+    # Sonsuza kadar bekle
     await asyncio.Event().wait()
 
 if __name__ == '__main__':
