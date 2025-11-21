@@ -476,29 +476,6 @@ async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
-async def main():
-    """Start the bot."""
-    
-    # --- BU KISIM ÇOK ÖNEMLİ: RENDER'IN BOTU KAPATMAMASI İÇİN ---
-    keep_alive()
-    # ------------------------------------------------------------
-    
-    # Create the Application
-    application = Application.builder().token(BOT_TOKEN).build()
-
-    # on different commands - answer in Telegram
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("help", help_command))
-    application.add_handler(CommandHandler("progress", progress))
-
-    # on callback queries
-    application.add_handler(CallbackQueryHandler(button_handler))
-
-    # on non command i.e message
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, help_command))
-
-    # log all errors
-    application.add_error_handler(error_handler)
 
     async def main():
         """Start the bot."""
